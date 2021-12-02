@@ -86,29 +86,3 @@ func partTwo(fileData []string) int {
 
 	return c.multiply()
 }
-
-//
-//func getDirectionData(str string) (string, int) {
-//	s := strings.Split(str, " ")
-//	val, err := strconv.Atoi(s[1])
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//
-//	return s[0], val
-//}
-//
-//func calculateDirection(str string, horizontal int, depth int) (int, int) {
-//	direction, val := getDirectionData(str)
-//
-//	switch direction {
-//	case "forward":
-//		return 0, horizontal + val
-//	case "up":
-//		return depth - val, 0
-//	case "down":
-//		return depth + val, 0
-//	default:
-//		return Err
-//	}
-//}
