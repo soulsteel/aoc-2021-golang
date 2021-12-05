@@ -1,15 +1,20 @@
 package day3
 
 import (
+	"errors"
+	"fmt"
 	"github.com/soulsteel/aoc-2019-golang/utils"
 	"log"
+	"math"
 	"strconv"
 	"strings"
 )
 
 func GetResults() (int, int) {
 	report := utils.ReadLines("./input/day3small.txt")
-	return calcConsumption(report, "oxygen"), calcOxygenAndCO2(report)
+	//calcOxygenAndCO2(report, 0, "co2")
+	partOne(report)
+	return 0, 0
 }
 
 func calcConsumption(report []string, rating string) int {
@@ -25,34 +30,8 @@ func calcConsumption(report []string, rating string) int {
 	}
 
 	for j := 0; j < len(bitsCounter); j++ {
-		//for i, v := range report {
-		//	if i == 0 {
-		//		continue
-		//	}
-		//	asSlice := strings.Split(v, "")
-		//	bit, err := strconv.Atoi(asSlice[j])
-		//	if err != nil {
-		//		log.Fatalln(err)
-		//	}
-		//	bitsCounter[j] += bit
-		//}
 		bitsCounter[j] = countBits(j, report)
 	}
-
-	//for i, v := range report {
-	//	if i == 0 {
-	//		continue
-	//	}
-	//
-	//	for j := 0; j < len(bitsCounter); j++ {
-	//		asSlice := strings.Split(v, "")
-	//		bit, err := strconv.Atoi(asSlice[j])
-	//		if err != nil {
-	//			log.Fatalln(err)
-	//		}
-	//		bitsCounter[j] += bit
-	//	}
-	//}
 
 	gammaAsStr := ""
 	for _, v := range bitsCounter {
@@ -75,32 +54,38 @@ func calcConsumption(report []string, rating string) int {
 	return int(consumption)
 }
 
-func calcOxygenAndCO2(report []string) int {
-	innerReport := make([]string, len(report))
-	copy(report, innerReport)
+func calcOxygenAndCO2(report []string, index int, elem string) []string {
+	//fmt.Printf("index: %d\n", index)
+	//fmt.Println(report)
 
-
-	for i := 0; i < len(report[1]); i++ {
-		count := countBits(i, innerReport)
-
-		if count >= len(report) / 2 {
-			removeBinaries(i, innerReport, 1)
-		} else {
-			removeBinaries(i, innerReport, 1)
-		}
+	if len(report) == 1 {
+		return report
 	}
 
-	println("test")
-	println(innerReport)
+	count := countBits(index, report)
+	reportLen := int(math.Round(float64(len(report)) / 2.0))
 
-	return 0
+	if count == reportLen && elem == "oxygen" {
+		l := removeBinaries(index, report, 1)
+		return calcOxygenAndCO2(l, index+1, elem)
+	}
+
+	if count == reportLen && elem == "co2" {
+		l := removeBinaries(index, report, 0)
+		return calcOxygenAndCO2(l, index+1, elem)
+	}
+
+	if count < reportLen {
+		l := removeBinaries(index, report, 1)
+		return calcOxygenAndCO2(l, index+1, elem)
+	} else {
+		l := removeBinaries(index, report, 0)
+		return calcOxygenAndCO2(l, index+1, elem)
+	}
 }
 
 func countBits(index int, report []string) (counter int) {
-	for i, v := range report {
-		if i == 0 {
-			continue
-		}
+	for _, v := range report {
 		asSlice := strings.Split(v, "")
 		bit, err := strconv.Atoi(asSlice[index])
 		if err != nil {
@@ -112,16 +97,61 @@ func countBits(index int, report []string) (counter int) {
 	return counter
 }
 
-func removeBinaries(index int, report []string, least int) {
-	for i, v := range report {
-		asSlice := strings.Split(v, "")
+func removeBinaries(index int, report []string, least int) []string {
+	c := report[:0]
+	for _, n := range report {
+		asSlice := strings.Split(n, "")
 		bit, err := strconv.Atoi(asSlice[index])
 		if err != nil {
 			log.Fatalln(err)
 		}
 		if bit == least {
-			report[i] = report[len(report)-1]
-			report = report[:len(report)-1]
+			c = append(c, n)
 		}
 	}
+
+	return c
+}
+
+func countCommonBeat(arr []string, col int, side string) (int, error) {
+	bits := make([]bool, 0)
+	for _, v := range arr {
+		asSlice := strings.Split(v, "")
+		n, err := strconv.Atoi(asSlice[col])
+		if err != nil {
+			log.Fatalln(err)
+		}
+		switch side {
+		case "least":
+			bits = append(bits, n != 1)
+		case "most":
+			bits = append(bits, n == 1)
+		default:
+			return -1, errors.New("unknown argument: side provided. Accepted ones: `most`, `least`")
+		}
+
+	}
+
+	counter := 0
+	for _, v := range bits {
+		if v {
+			counter++
+		}
+	}
+
+	//if counter >
+
+	return counter, nil
+}
+
+func partOne(report []string) {
+	result := ""
+	for i:=0; i<len(report[0]);i++ {
+		counter, err := countCommonBeat(report, i, "most")
+		if err != nil {
+			log.Fatalln(err)
+		}
+		result += strconv.Itoa(counter)
+	}
+	fmt.Println(result)
 }
