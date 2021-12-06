@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/soulsteel/aoc-2019-golang/day5"
+	"github.com/soulsteel/aoc-2019-golang/day6"
 	"strings"
 )
 
@@ -19,8 +19,12 @@ func main() {
 	//day4Part1, day4Part2 := day4.GetRes()
 	//printReport(day4Part1, day4Part2, 4)
 
-	day5Part1, day5Part2 := day5.GetResults()
-	printReport(day5Part1, day5Part2, 5)
+	//day5Part1, day5Part2 := day5.GetResults()
+	//printReport(day5Part1, day5Part2, 5)
+
+	day6Part1, day6Part2 := day6.GetResults()
+	printReport(day6Part1, day6Part2, 6)
+
 }
 
 func printReport(v1 int, v2 int, day int) {
