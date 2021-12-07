@@ -9,9 +9,9 @@ import (
 	"strings"
 )
 
-func GetResults() (int, int) {
+func GetResults() {
 	fileData := utils.ReadLines("./input/day2.txt")
-	return partOne(fileData), partTwo(fileData)
+	utils.PrintReport(partOne(fileData), partTwo(fileData), 2)
 }
 
 type course struct {

@@ -5,9 +5,9 @@ import (
 	"github.com/soulsteel/aoc-2019-golang/utils"
 )
 
-func GetResults() (int, int) {
+func GetResults() {
 	nums := utils.GetInts("./input/day1.txt")
-	return partOne(nums), partTwo(nums)
+	utils.PrintReport(partOne(nums), partTwo(nums), 1)
 }
 
 func partOne(nums []int) (counter int) {

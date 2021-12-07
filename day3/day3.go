@@ -2,7 +2,6 @@ package day3
 
 import (
 	"errors"
-	"fmt"
 	"github.com/soulsteel/aoc-2019-golang/utils"
 	"log"
 	"math"
@@ -10,11 +9,11 @@ import (
 	"strings"
 )
 
-func GetResults() (int, int) {
-	report := utils.ReadLines("./input/day3small.txt")
-	//calcOxygenAndCO2(report, 0, "co2")
-	partOne(report)
-	return 0, 0
+func GetResults() {
+	report := utils.ReadLines("./input/day3.txt")
+	calcOxygenAndCO2(report, 0, "co2")
+	utils.PrintReport(partOne(report), 0, 3)
+
 }
 
 func calcConsumption(report []string, rating string) int {
@@ -55,9 +54,6 @@ func calcConsumption(report []string, rating string) int {
 }
 
 func calcOxygenAndCO2(report []string, index int, elem string) []string {
-	//fmt.Printf("index: %d\n", index)
-	//fmt.Println(report)
-
 	if len(report) == 1 {
 		return report
 	}
@@ -129,7 +125,6 @@ func countCommonBeat(arr []string, col int, side string) (int, error) {
 		default:
 			return -1, errors.New("unknown argument: side provided. Accepted ones: `most`, `least`")
 		}
-
 	}
 
 	counter := 0
@@ -139,12 +134,10 @@ func countCommonBeat(arr []string, col int, side string) (int, error) {
 		}
 	}
 
-	//if counter >
-
 	return counter, nil
 }
 
-func partOne(report []string) {
+func partOne(report []string) int {
 	result := ""
 	for i:=0; i<len(report[0]);i++ {
 		counter, err := countCommonBeat(report, i, "most")
@@ -153,5 +146,11 @@ func partOne(report []string) {
 		}
 		result += strconv.Itoa(counter)
 	}
-	fmt.Println(result)
+
+	n, err := strconv.Atoi(result)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	return n
 }

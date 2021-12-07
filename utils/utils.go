@@ -3,9 +3,11 @@ package utils
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
+	"strings"
 )
 
 // ReadLines takes filesPath as argument and returns a slice of line contents
@@ -87,4 +89,12 @@ func RemoveIndex(s [][]int, index int) [][]int {
 	ret := make([][]int, 0)
 	ret = append(ret, s[:index]...)
 	return append(ret, s[index+1:]...)
+}
+
+func PrintReport(v1 int, v2 int, day int) {
+	fmt.Println(strings.Repeat("~", 30))
+	fmt.Printf("Day #%d results.\n", day)
+	fmt.Printf("Part 1: %d\n", v1)
+	fmt.Printf("Part 2: %d\n", v2)
+	fmt.Println(strings.Repeat("~", 30))
 }
