@@ -98,3 +98,17 @@ func PrintReport(v1 int, v2 int, day int) {
 	fmt.Printf("Part 2: %d\n", v2)
 	fmt.Println(strings.Repeat("~", 30))
 }
+
+func StringSliceEqual(s1, s2 []string) bool {
+	if len(s1) != len(s2) {
+		return false
+	}
+
+	for i, v := range s1 {
+		if v != s2[i] {
+			return false
+		}
+	}
+
+	return true
+}
