@@ -14,8 +14,6 @@ func GetResults() {
 	utils.PrintReport(partOne(input), partTwo(input), 8)
 }
 
-
-
 func partOne(input []string) (counter int) {
 	easyDigits := map[int]struct{}{2: struct{}{}, 3: struct{}{}, 4: struct{}{}, 7: struct{}{}}
 	for _, v := range input {
@@ -38,13 +36,6 @@ func partTwo(input []string) (sum int) {
 		A := filterCorrectMapper(mappers, asSlice[0])
 		sum += mergeLetters(A, asSlice[1])
 	}
-
-	//I := "bdfegc cbegaf gecbf dfcage bdacg ed bedf ced adcbefg gebcd "
-	//O := " ed bcgafe cdgba cbgef"
-
-	//mappers := generateMappers(I)
-	//A := filterCorrectMapper(mappers, I)
-	//fmt.Println(A)
 
 	return sum
 }
